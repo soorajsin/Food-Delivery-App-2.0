@@ -153,4 +153,21 @@ router.post("/addFood", authentication, async (req, res) => {
   }
 });
 
+router.get("/fetchedDataForManagement", async (req, res) => {
+  try {
+    const fetched = await userdb.find({});
+    // console.log(fetched);
+
+    res.status(201).json({
+      msg: "Fetched data",
+      status: 201,
+      data: fetched
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error
+    });
+  }
+});
+
 module.exports = router;
