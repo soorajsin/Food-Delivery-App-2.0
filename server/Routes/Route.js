@@ -2,7 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const userdb = require("../Model/userSchema");
 const bcrypt = require("bcryptjs");
-const authentication=require("../Middleware/authentication");
+const authentication = require("../Middleware/authentication");
 
 router.post("/register", async (req, res) => {
   try {
@@ -96,13 +96,26 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/validator", authentication, async(req, res)=>{
+router.get("/validator", authentication, async (req, res) => {
   try {
-    console.log("done");
+    // console.log("done");
+
+    if (req.getData) {
+      res.status(201).json({
+        msg: "Authenticated user data is valid.",
+        status: 201,
+        data: req.getData
+      });
+    } else {
+      res.status(201).json({
+        status: 202,
+        msg: "No authenticated user found."
+      });
+    }
   } catch (error) {
     res.status(400).json({
       error: error
-    })
+    });
   }
 });
 

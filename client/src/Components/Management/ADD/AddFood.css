@@ -1,0 +1,18 @@
+.register .regContainer .form h2 {
+  word-spacing: 30px;
+  font-size: 30px;
+}
+
+.register .regContainer .form textarea {
+  width: 400px;
+  border-radius: 10px;
+  border-top: none;
+  font-size: 30px;
+  padding-left: 10px;
+}
+
+.register .regContainer .form .line {
+  width: 400px;
+  height: 1px;
+  background-color: black;
+}

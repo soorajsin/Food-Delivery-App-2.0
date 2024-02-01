@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.management {
+  width: 1200px;
+  margin: 100px auto;
+}
+
+.management .managementCon {
+  display: flex;
+}
+
+.management .managementCon .add button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 20px;
+  background-color: #1976d2;
+  color: #fff;
+  cursor: pointer;
+}

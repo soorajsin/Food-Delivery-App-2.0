@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Avatar, Toolbar } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import "./Nav.css";
 import apiURL from "../config";
 
 const Nav = () => {
+  const [userData, setUserData] = useState();
   const api = apiURL.url;
   const navAuth = async () => {
     const token = await localStorage.getItem("token");
@@ -19,12 +20,19 @@ const Nav = () => {
     });
 
     const res = await data.json();
-    console.log(res);
+    // console.log(res);
+
+    if (res.status === 201) {
+      console.log(res);
+      setUserData(res);
+    } else {
+      window.location.replace("/login");
+    }
   };
 
   useEffect(() => {
     navAuth();
-  });
+  }, []);
 
   return (
     <>
@@ -32,7 +40,7 @@ const Nav = () => {
         <Toolbar>
           <div className="nav">
             <div className="tab">
-              <NavLink className={"tabClick"}>
+              <NavLink to={"/home"} className={"tabClick"}>
                 <img
                   src="https://shopping-app-xx1p.vercel.app/static/media/Sooraj-logo.4ea9ba32a0c93354b8a8.png"
                   alt="logo"
@@ -40,33 +48,51 @@ const Nav = () => {
               </NavLink>
             </div>
             <div className="tab">
-              <NavLink className={"tabClick"}>Home</NavLink>
+              <NavLink to={"/home"} className={"tabClick"}>
+                Home
+              </NavLink>
             </div>
-            <div className="tab">
-              <NavLink className={"tabClick"}>Management</NavLink>
-            </div>
+            {/* management part */}
+            {userData
+              ? userData.data.role === "staff" && (
+                  <>
+                    <div className="tab">
+                      <NavLink to={"/management"} className={"tabClick"}>
+                        Management
+                      </NavLink>
+                    </div>
+                    <div className="tab">
+                      <NavLink className={"tabClick"}>Track</NavLink>
+                    </div>
+                  </>
+                )
+              : ""}
+
             <div className="tab">
               <NavLink className={"tabClick"}>
                 <i className="fa-solid fa-cart-shopping"></i>
               </NavLink>
             </div>
             <div className="tab">
-              <NavLink className={"tabClick"}>Track</NavLink>
-            </div>
-            <div className="tab">
-              <NavLink to={"/register"} className={"tabClick"}>
+              <NavLink to={"/"} className={"tabClick"}>
                 Login
               </NavLink>
             </div>
             <div className="tab">
               <NavLink className={"tabClick"}>
-                <Avatar></Avatar>
+                <Avatar className="avatarIcon">
+                  {userData ? userData.data.email.charAt(0).toUpperCase() : ""}
+                </Avatar>
                 <div className="avatarManu">
                   <div className="avatartab">
-                    <NavLink className={"avatarClick"}>Email</NavLink>
+                    <NavLink className={"avatarClick"}>
+                      {userData ? userData.data.email : "Email"}
+                    </NavLink>
                   </div>
                   <div className="avatartab">
-                    <NavLink className={"avatarClick"}>Home</NavLink>
+                    <NavLink to={"/home"} className={"avatarClick"}>
+                      Home
+                    </NavLink>
                   </div>
                   <div className="avatartab">
                     <NavLink className={"avatarClick"}>Management</NavLink>
