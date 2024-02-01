@@ -7,6 +7,10 @@ const ManagementPage = () => {
   const addFood = () => {
     histoy("/addFood");
   };
+
+  const fetchData=async()=>{
+    
+  }
   return (
     <>
       <div className="management">
@@ -14,7 +18,8 @@ const ManagementPage = () => {
           <div className="add">
             <button onClick={addFood}>ADD NEW PRODUCT</button>
           </div>
-          <div className="show"></div>
+          <div className="show">
+          </div>
         </div>
       </div>
     </>

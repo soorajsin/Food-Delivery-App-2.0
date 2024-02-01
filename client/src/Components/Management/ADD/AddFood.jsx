@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./AddFood.css";
 import apiURL from "../../config";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const AddFood = () => {
+  const history = useNavigate();
   const api = apiURL.url;
   const [sendData, setSendData] = useState([
     {
@@ -35,9 +37,23 @@ const AddFood = () => {
       console.log("add");
 
       const token = await localStorage.getItem("token");
-      const data = await fetch(`${api}/addFood`,{
-        method:"POST",
+      const data = await fetch(`${api}/addFood`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token
+        },
+        body: JSON.stringify({ sendData })
       });
+
+      const res = await data.json();
+      // console.log(res);
+
+      if (res.status === 201) {
+        history("/management");
+      } else {
+        alert("Error");
+      }
     }
   };
 
@@ -116,6 +132,11 @@ const AddFood = () => {
           </div>
           <div className="form">
             <button onClick={submitToAdd}>Submit</button>
+          </div>
+          <div className="form">
+            <h4>
+              <NavLink to={"/management"}>Cancel</NavLink>
+            </h4>
           </div>
         </div>
       </div>

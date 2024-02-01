@@ -119,4 +119,38 @@ router.get("/validator", authentication, async (req, res) => {
   }
 });
 
+router.post("/addFood", authentication, async (req, res) => {
+  try {
+    // console.log(req.body);
+    const { sendData } = req.body;
+    if (!sendData) {
+      res.status(400).json({
+        message: "Please provide the food details!"
+      });
+    } else {
+      const user = req.getData;
+      if (!user) {
+        res.status(400).json({
+          message: "User not Found"
+        });
+      } else {
+        // console.log(user);
+        user.addFood.push(...sendData);
+
+        const updatedUser = await user.save();
+
+        res.status(201).json({
+          message: "Successfully added to your Food List!",
+          status: 201,
+          data: updatedUser
+        });
+      }
+    }
+  } catch (error) {
+    res.status(400).json({
+      error: error
+    });
+  }
+});
+
 module.exports = router;
