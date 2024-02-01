@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppBar, Avatar, Toolbar } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import "./Nav.css";
+import apiURL from "../config";
 
 const Nav = () => {
-  const navAuth=async()=>{
-    
-  }
+  const api = apiURL.url;
+  const navAuth = async () => {
+    const token = await localStorage.getItem("token");
+    // console.log(token);
+
+    const data = await fetch(`${api}/validator`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      }
+    });
+
+    const res = await data.json();
+    console.log(res);
+  };
+
+  useEffect(() => {
+    navAuth();
+  });
 
   return (
     <>

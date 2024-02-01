@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const userdb = require("../Model/userSchema");
 const bcrypt = require("bcryptjs");
+const authentication=require("../Middleware/authentication");
 
 router.post("/register", async (req, res) => {
   try {
@@ -92,6 +93,16 @@ router.post("/login", async (req, res) => {
     res.status(400).json({
       msg: "Failed to login"
     });
+  }
+});
+
+router.get("/validator", authentication, async(req, res)=>{
+  try {
+    console.log("done");
+  } catch (error) {
+    res.status(400).json({
+      error: error
+    })
   }
 });
 
