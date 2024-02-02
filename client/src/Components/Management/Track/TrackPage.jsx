@@ -67,6 +67,9 @@ const TrackPage = () => {
                     <h3>{buyFood.fname}</h3>
                     <h3>{buyFood.fprice}</h3>
                     <p>{buyFood.fdec}</p>
+                    <p>{buyFood.uname}</p>
+                    <p>{buyFood.umobile}</p>
+                    <p>{buyFood.uaddress}</p>
                     <div className="additional">
                       <button onClick={() => responseTo(buyFood._id, index)}>
                         Response
@@ -86,7 +89,10 @@ const TrackPage = () => {
                     <img src={response.fimg} alt="img" />
                     <h3>{response.fname}</h3>
                     <h3>{response.fprice}</h3>
-                    <p>{response.fdec}</p>
+                    <p>{response.uname}</p>
+                    <p>{response.umobile}</p>
+                    <p>{response.uaddress}</p>
+                    <p>--------------------------</p>
                     <p>{response.dname}</p>
                     <p>{response.dmobile}</p>
                     <p>{response.dduration}</p>

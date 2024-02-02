@@ -26,12 +26,12 @@ const BuyFoodPage = () => {
 
       const res = await data.json();
       if (res.status === 201) {
-        // console.log("update", res);
+        console.log("update buy", res);
 
         const findupdatefood = await res.data[0].addToCart.find(
           (addToCart) => addToCart._id.toString() === addToCartId
         );
-        console.log("Fetched user", findupdatefood);
+        // console.log("Fetched user", findupdatefood);
         if (findupdatefood) {
           setSendData({
             fname: findupdatefood.fname,
@@ -70,13 +70,13 @@ const BuyFoodPage = () => {
       });
 
       const res = await data.json();
-      console.log(res);
-      //   if (res.status === 208) {
-      //     console.log(res);
-      //     history("/track");
-      //   } else {
-      //     alert("Network check");
-      //   }
+      // console.log(res);
+      if (res.status === 204) {
+        console.log(res);
+        history("/shopping");
+      } else {
+        alert("Network check");
+      }
     }
   };
 

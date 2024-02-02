@@ -119,6 +119,30 @@ router.get("/validator", authentication, async (req, res) => {
   }
 });
 
+router.post("/signOut", authentication, async (req, res) => {
+  try {
+    // console.log(req.body);
+    const user = req.getData;
+    if (!user) {
+      res.status(400).json({
+        msg: "User not logged in!"
+      });
+    } else {
+      user.tokens = [];
+      const updatedUser = await user.save();
+      res.status(201).json({
+        msg: "SignOut successfully done",
+        status: 211,
+        data: updatedUser
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      error: "Error signing out."
+    });
+  }
+});
+
 router.post("/addFood", authentication, async (req, res) => {
   try {
     // console.log(req.body);
@@ -307,39 +331,38 @@ router.post("/addToCart", authentication, async (req, res) => {
 
 router.post("/buyToFood", authentication, async (req, res) => {
   try {
-    console.log(req.body);
-    // const { addToCartId } = req.body;
-    // if (!addToCartId) {
-    //   res.status(400).json({
-    //     msg: "not find add to cart id"
-    //   });
-    // } else {
-    //   const user = req.getData;
-    //   if (!user) {
-    //     res.status(400).json({
-    //       msg: "user not found"
-    //     });
-    //   } else {
-    //     const entryField = user.addToCart.find(
-    //       (addToCart) => addToCart._id.toString() === addToCartId
-    //     );
-    //     if (!entryField) {
-    //       res.status(400).json({
-    //         msg: "This item is not in your shopping list."
-    //       });
-    //     } else {
-    //       // console.log(entryField);
-    //       user.buyFood.push(entryField);
-    //       const updatedUser = await user.save();
+    // console.log(req.body);
+    const { sendData, addToCartId } = req.body;
+    if (!sendData || !addToCartId) {
+      res.status(400).json({
+        msg: "Parameter missing!"
+      });
+    } else {
+      const user = req.getData;
+      if (!user) {
+        res.status(400).json({
+          msg: "Please login first!"
+        });
+      } else {
+        const entryField = user.addToCart.find(
+          (addToCart) => addToCart._id.toString() === addToCartId
+        );
+        if (!entryField) {
+          res.status(400).json({
+            msg: "This item is not in your shopping list."
+          });
+        } else {
+          user.buyFood.push(sendData);
 
-    //       res.status(201).json({
-    //         msg: "Succesffully  buy!",
-    //         status: 207,
-    //         data: updatedUser
-    //       });
-    //     }
-    //   }
-    // }
+          const updatedUser = await user.save();
+          res.status(201).json({
+            msg: "add to cart successfully done",
+            status: 204,
+            data: updatedUser
+          });
+        }
+      }
+    }
   } catch (error) {
     res.status(400).json({
       msg: "Failed to buy"

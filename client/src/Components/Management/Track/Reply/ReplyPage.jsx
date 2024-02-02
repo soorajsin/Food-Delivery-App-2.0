@@ -5,7 +5,7 @@ import apiURL from "../../../config";
 const ReplyPage = () => {
   const history = useNavigate();
   const api = apiURL.url;
-  const { buyFoodId} = useParams();
+  const { buyFoodId } = useParams();
   // console.log(responseId);
   const [sendData, setSendData] = useState({
     dname: "",
@@ -37,7 +37,10 @@ const ReplyPage = () => {
             fname: findupdatefood.fname,
             fprice: findupdatefood.fprice,
             fimg: findupdatefood.fimg,
-            fdec: findupdatefood.fdec
+            fdec: findupdatefood.fdec,
+            uname: findupdatefood.uname,
+            umobile: findupdatefood.umobile,
+            uaddress: findupdatefood.uaddress
           });
         } else {
           console.error("Error fetching data:", res.error);

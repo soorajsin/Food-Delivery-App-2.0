@@ -52,7 +52,10 @@ const userSchema = new mongoose.Schema({
       fname: String,
       fprice: Number,
       fimg: String,
-      fdec: String
+      fdec: String,
+      uname: String,
+      umobile: Number,
+      uaddress: String
     }
   ],
   response: [
@@ -61,6 +64,9 @@ const userSchema = new mongoose.Schema({
       fprice: Number,
       fimg: String,
       fdec: String,
+      uname: String,
+      umobile: Number,
+      uaddress: String,
       dname: String,
       dmobile: Number,
       dduration: String

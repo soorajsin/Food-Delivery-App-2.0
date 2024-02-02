@@ -36,23 +36,7 @@ const AddToCartFood = () => {
   }, []);
 
   const buyToFood = async (addToCartId, index) => {
-    // const token = await localStorage.getItem("token");
-    // const data = await fetch(`${api}/buyToFood`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: token
-    //   },
-    //   body: JSON.stringify({ addToCartId })
-    // });
-    // const res = await data.json();
-    // // console.log(res);
-    // if (res.status === 207) {
-    //   console.log(res);
-    // } else {
-    //   alert("Check internet");
-    // }
-    history(`/shoppingBuy/:${addToCartId}`);
+    history(`/shoppingBuy/${addToCartId}`);
   };
 
   return (
@@ -87,6 +71,9 @@ const AddToCartFood = () => {
                     <h3>{buyFood.fname}</h3>
                     <h3>{buyFood.fprice}</h3>
                     <p>{buyFood.fdec}</p>
+                    <p>{buyFood.uname}</p>
+                    <p>{buyFood.umobile}</p>
+                    <p>{buyFood.uaddress}</p>
                   </div>
                 ))
               : ""}
@@ -102,6 +89,10 @@ const AddToCartFood = () => {
                     <h3>{response.fname}</h3>
                     <h3>{response.fprice}</h3>
                     <p>{response.fdec}</p>
+                    <p>{response.uname}</p>
+                    <p>{response.umobile}</p>
+                    <p>-------------------------------</p>
+                    <p>{response.uaddress}</p>
                     <p>{response.dname}</p>
                     <p>{response.dmobile}</p>
                     <p>{response.dduration}</p>

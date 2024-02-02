@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AppBar, Avatar, Toolbar } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Nav.css";
 import apiURL from "../config";
 
 const Nav = () => {
+  const history = useNavigate();
   const [userData, setUserData] = useState();
   const api = apiURL.url;
   const navAuth = async () => {
@@ -34,6 +35,26 @@ const Nav = () => {
     navAuth();
   }, []);
 
+  const signOut = async () => {
+    const token = await localStorage.getItem("token");
+    const data = await fetch(`${api}/signOut`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      }
+    });
+    const res = await data.json();
+    // console.log(res);
+    if (res.status === 211) {
+      localStorage.removeItem("token");
+      history("/");
+      window.location.reload();
+    } else {
+      alert("Not Log Out");
+    }
+  };
+
   return (
     <>
       <AppBar>
@@ -62,7 +83,9 @@ const Nav = () => {
                       </NavLink>
                     </div>
                     <div className="tab">
-                      <NavLink to={"/track"} className={"tabClick"}>Track</NavLink>
+                      <NavLink to={"/track"} className={"tabClick"}>
+                        Track
+                      </NavLink>
                     </div>
                   </>
                 )
@@ -103,7 +126,7 @@ const Nav = () => {
                   <div className="avatartab">
                     <NavLink className={"avatarClick"}>Track</NavLink>
                   </div>
-                  <div className="avatartab">
+                  <div className="avatartab" onClick={signOut}>
                     <NavLink className={"avatarClick"}>Log Out</NavLink>
                   </div>
                 </div>
