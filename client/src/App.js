@@ -7,6 +7,8 @@ import Homepage from "./Components/Home/Homepage";
 import ManagementPage from "./Components/Management/ManagementPage";
 import AddFood from "./Components/Management/ADD/AddFood";
 import Updatepage from "./Components/Management/Update/Updatepage";
+import AddToCartFood from "./Components/Home/AddToCart/AddToCartFood";
+import TrackPage from "./Components/Management/Track/TrackPage";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/management" element={<ManagementPage />} />
           <Route path="/addFood" element={<AddFood />} />
           <Route path="/updateFood/:addFoodId" element={<Updatepage />} />
+          <Route path="/shopping" element={<AddToCartFood />} />
+          <Route path="/track" element={<TrackPage />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -62,14 +62,14 @@ const Nav = () => {
                       </NavLink>
                     </div>
                     <div className="tab">
-                      <NavLink className={"tabClick"}>Track</NavLink>
+                      <NavLink to={"/track"} className={"tabClick"}>Track</NavLink>
                     </div>
                   </>
                 )
               : ""}
 
             <div className="tab">
-              <NavLink className={"tabClick"}>
+              <NavLink to={"/shopping"} className={"tabClick"}>
                 <i className="fa-solid fa-cart-shopping"></i>
               </NavLink>
             </div>

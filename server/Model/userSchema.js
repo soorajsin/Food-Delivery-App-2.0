@@ -38,6 +38,22 @@ const userSchema = new mongoose.Schema({
       fimg: String,
       fdec: String
     }
+  ],
+  addToCart: [
+    {
+      fname: String,
+      fprice: Number,
+      fimg: String,
+      fdec: String
+    }
+  ],
+  buyFood: [
+    {
+      fname: String,
+      fprice: Number,
+      fimg: String,
+      fdec: String
+    }
   ]
 });
 

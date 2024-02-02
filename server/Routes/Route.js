@@ -265,24 +265,84 @@ router.put("/updateFood", authentication, async (req, res) => {
 router.post("/addToCart", authentication, async (req, res) => {
   try {
     // console.log(req.body);
-    const {addFoodId}=req.body;
-    if(!addFoodId){
+    const { addFoodId } = req.body;
+    if (!addFoodId) {
       res.status(400).json({
-        msg:"Plz fills all fields"
-      })
-    }else{
-      const user=req.getData;
-      if(!user){
+        msg: "Plz fills all fields"
+      });
+    } else {
+      const user = req.getData;
+      if (!user) {
         res.status(400).json({
-          msg:'Please login first'
-        })
-      }else{
-        
+          msg: "Please login first"
+        });
+      } else {
+        const entryField = user.addFood.find(
+          (addFood) => addFood._id.toString() === addFoodId
+        );
+
+        if (!entryField) {
+          res.status(400).json({
+            msg: `This Food is not in your menu list`
+          });
+        } else {
+          // console.log(entryField);
+          user.addToCart.push(entryField);
+          const updatedUser = await user.save();
+
+          res.status(201).json({
+            msg: "Succesffully  added to cart!",
+            status: 206,
+            data: updatedUser
+          });
+        }
       }
     }
   } catch (error) {
     res.status(400).json({
       msg: "Failed to addToCart"
+    });
+  }
+});
+
+router.post("/buyToFood", authentication, async (req, res) => {
+  try {
+    // console.log(req.body);
+    const { addToCartId } = req.body;
+    if (!addToCartId) {
+      res.status(400).json({
+        msg: "not find add to cart id"
+      });
+    } else {
+      const user = req.getData;
+      if (!user) {
+        res.status(400).json({
+          msg: "user not found"
+        });
+      } else {
+        const entryField = user.addToCart.find(
+          (addToCart) => addToCart._id.toString() === addToCartId
+        );
+        if (!entryField) {
+          res.status(400).json({
+            msg: "This item is not in your shopping list."
+          });
+        } else {
+          // console.log(entryField);
+          user.buyFood.push(entryField);
+          const updatedUser = await user.save();
+
+          res.status(201).json({
+            msg: "Succesffully  buy!",
+            status: 207,
+            data: updatedUser
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(400).json({
+      msg: "Failed to buy"
     });
   }
 });

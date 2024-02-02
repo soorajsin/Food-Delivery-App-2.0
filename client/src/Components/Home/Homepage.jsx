@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import apiURL from "../config";
 import "./Homepage.css";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
+  const history = useNavigate();
   const api = apiURL.url;
   const [userData, setUserData] = useState();
   const fetchData = async () => {
@@ -36,7 +38,13 @@ const Homepage = () => {
       body: JSON.stringify({ addFoodId })
     });
     const res = await data.json();
-    console.log(res);
+    // console.log(res);
+    if (res.status === 206) {
+      alert("Added to cart successfully");
+      history("/shopping");
+    }else{
+      alert("Please login first!");
+    }
   };
 
   return (
