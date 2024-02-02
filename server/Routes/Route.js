@@ -215,4 +215,15 @@ router.delete("/deleteFood", authentication, async (req, res) => {
   }
 });
 
+router.put("/updateFood", authentication, async (req, res) => {
+  try {
+    console.log(req.body);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      msg: "failed to update"
+    });
+  }
+});
+
 module.exports = router;

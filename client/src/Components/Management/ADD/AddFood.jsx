@@ -28,7 +28,7 @@ const AddFood = () => {
   };
   console.log(sendData);
 
-  const submitToAdd = async (e) => {
+  const submitToAdd = async () => {
     const emptyField = sendData.some(
       (form) => !form.fname || !form.fprice || !form.fimg || !form.fdec
     );

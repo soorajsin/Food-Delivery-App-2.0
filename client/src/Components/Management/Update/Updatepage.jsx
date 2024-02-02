@@ -19,26 +19,61 @@ const Updatepage = () => {
   };
   console.log(sendData);
 
-  useEffect(() => {
-    const fetchedData = async () => {
-      try {
-        const data = await fetch(`${api}/fetchedDataForManagement`, {
-          method: "GET"
-        });
+  const fetchedData = async () => {
+    try {
+      const data = await fetch(`${api}/fetchedDataForManagement`, {
+        method: "GET"
+      });
 
-        const res = await data.json();
-        if (res.status === 201) {
-          console.log("update", res);
+      const res = await data.json();
+      if (res.status === 201) {
+        // console.log("update", res);
+
+        const findupdatefood = await res.data[0].addFood.find(
+          (addFood) => addFood._id.toString() === addFoodId
+        );
+        // console.log(findupdatefood);
+        if (findupdatefood) {
+          setSendData({
+            fname: findupdatefood.fname,
+            fprice: findupdatefood.fprice,
+            fimg: findupdatefood.fimg,
+            fdec: findupdatefood.fdec
+          });
         } else {
-          console.error("Food not found for the given ID");
+          console.error("Error fetching data:", res.error);
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        console.error("Food not found for the given ID");
       }
-    };
-  });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchedData();
+  }, []);
 
-  const updateFoodDetails = async () => {};
+  const updateFoodDetails = async () => {
+    const { fname, fprice, fimg, fdec } = sendData;
+    if (!fname || !fprice || !fimg || !fdec) {
+      alert("Please fill all fields");
+    } else {
+      console.log("done");
+      const token = await localStorage.getItem("token");
+      const data = await fetch(`${api}/updateFood`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token
+        },
+        body: JSON.stringify({ sendData, addFoodId })
+      });
+
+      const res=await data.json();
+      console.log(res);
+    }
+  };
 
   return (
     <>
