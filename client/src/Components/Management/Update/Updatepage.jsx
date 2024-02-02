@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import "./Updatepage.css";
 import apiURL from "../../config";
 
 const Updatepage = () => {
+  const history = useNavigate();
   const api = apiURL.url;
   const { addFoodId } = useParams();
   //   console.log(addFoodId);
@@ -70,8 +71,14 @@ const Updatepage = () => {
         body: JSON.stringify({ sendData, addFoodId })
       });
 
-      const res=await data.json();
-      console.log(res);
+      const res = await data.json();
+      // console.log(res);
+      if (res.status === 205) {
+        console.log(res);
+        history("/management");
+      } else {
+        alert("Network check");
+      }
     }
   };
 

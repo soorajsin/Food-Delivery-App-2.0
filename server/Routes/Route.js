@@ -217,7 +217,43 @@ router.delete("/deleteFood", authentication, async (req, res) => {
 
 router.put("/updateFood", authentication, async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
+    const { sendData, addFoodId } = req.body;
+    if (!sendData || !addFoodId) {
+      res.status(400).json({
+        msg: "Missing Data"
+      });
+    } else {
+      const user = req.getData;
+      if (!user) {
+        res.status(400).json({
+          msg: "user not found"
+        });
+      } else {
+        const entryFieldIndex = user.addFood.findIndex(
+          (addFood) => addFood._id.toString() === addFoodId
+        );
+
+        if (entryFieldIndex === -1) {
+          res.status(400).json({
+            msg: "This field does not already exist."
+          });
+        } else {
+          // Update the fields using the index
+          user.addFood[entryFieldIndex].fname = sendData.fname;
+          user.addFood[entryFieldIndex].fprice = sendData.fprice;
+          user.addFood[entryFieldIndex].fimg = sendData.fimg;
+          user.addFood[entryFieldIndex].fdec = sendData.fdec;
+
+          const updatedUser = await user.save();
+          res.status(201).json({
+            msg: "Update food data successfully done",
+            status: 205,
+            data: updatedUser
+          });
+        }
+      }
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json({
