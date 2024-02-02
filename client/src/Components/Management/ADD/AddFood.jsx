@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AddFood.css";
 import apiURL from "../../config";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const AddFood = () => {
+  // const { addFoodId } = useParams();
+  // console.log(addFoodId);
   const history = useNavigate();
   const api = apiURL.url;
   const [sendData, setSendData] = useState([
@@ -59,6 +61,8 @@ const AddFood = () => {
       }
     }
   };
+
+
 
   return (
     <>

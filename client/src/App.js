@@ -6,6 +6,7 @@ import Login from "./Components/Account/Login";
 import Homepage from "./Components/Home/Homepage";
 import ManagementPage from "./Components/Management/ManagementPage";
 import AddFood from "./Components/Management/ADD/AddFood";
+import Updatepage from "./Components/Management/Update/Updatepage";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Homepage />} />
           <Route path="/management" element={<ManagementPage />} />
-          <Route path="/addFood" element={<AddFood/>}/>
+          <Route path="/addFood" element={<AddFood />} />
+          <Route path="/updateFood/:addFoodId" element={<Updatepage />} />
         </Routes>
       </BrowserRouter>
     </>

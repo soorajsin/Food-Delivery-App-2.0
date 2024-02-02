@@ -54,6 +54,10 @@ const ManagementPage = () => {
     }
   };
 
+  const updateFood = async (addFoodId, index) => {
+    histoy(`/updateFood/${addFoodId}`);
+  };
+
   return (
     <>
       <div className="management">
@@ -78,7 +82,10 @@ const ManagementPage = () => {
                           ></i>
                         </div>
                         <div className="handle">
-                          <i className="fa-solid fa-pen-nib"></i>
+                          <i
+                            onClick={() => updateFood(addFood._id, index)}
+                            className="fa-solid fa-pen-nib"
+                          ></i>
                         </div>
                       </>
                     </div>
