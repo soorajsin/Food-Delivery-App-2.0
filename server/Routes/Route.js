@@ -170,4 +170,49 @@ router.get("/fetchedDataForManagement", async (req, res) => {
   }
 });
 
+router.delete("/deleteFood", authentication, async (req, res) => {
+  try {
+    // console.log(req.body);
+    const { addFoodId } = req.body;
+    if (!addFoodId) {
+      res.status(400).json({
+        msg: "Not find id"
+      });
+    } else {
+      const user = req.getData;
+      if (!user) {
+        res.status(400).json({
+          msg: "user not found"
+        });
+      } else {
+        const entryField = user.addFood.find(
+          (addFood) => addFood._id.toString() === addFoodId
+        );
+
+        if (!entryField) {
+          res.status(400).json({
+            msg: `This food is not in your list`
+          });
+        } else {
+          // console.log(entryField);
+          user.addFood = user.addFood.filter(
+            (addFood) => addFood._id.toString() !== addFoodId
+          );
+
+          const updatedUser = await user.save();
+          res.status(201).json({
+            msg: "Delete successfully done",
+            data: updatedUser,
+            status: 204
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(400).json({
+      error: "Error in deleting the food item"
+    });
+  }
+});
+
 module.exports = router;

@@ -32,7 +32,27 @@ const ManagementPage = () => {
     fetchData();
   }, []);
 
-  const deleteFood = async (addFoodId, index) => {};
+  const deleteFood = async (addFoodId, index) => {
+    const token = await localStorage.getItem("token");
+    const data = await fetch(`${api}/deleteFood`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      },
+      body: JSON.stringify({ addFoodId })
+    });
+
+    const res = await data.json();
+    // console.log(res);
+
+    if (res.status === 204) {
+      console.log(res);
+      fetchData();
+    } else {
+      alert("Failed to Delete Food");
+    }
+  };
 
   return (
     <>
