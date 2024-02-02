@@ -1,0 +1,16 @@
+.home .homeCon .show .showData .additional {
+  display: flex;
+  justify-content: space-between;
+}
+.home .homeCon .show .showData .additional i {
+  margin: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+.home .homeCon .show .showData:hover .additional i {
+  display: block;
+}
+.home .homeCon .show .showData .additional i:hover {
+  color: #d43757;
+}

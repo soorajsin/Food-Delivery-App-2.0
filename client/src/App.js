@@ -9,6 +9,9 @@ import AddFood from "./Components/Management/ADD/AddFood";
 import Updatepage from "./Components/Management/Update/Updatepage";
 import AddToCartFood from "./Components/Home/AddToCart/AddToCartFood";
 import TrackPage from "./Components/Management/Track/TrackPage";
+import ReplyPage from "./Components/Management/Track/Reply/ReplyPage";
+import TrackUpdate from "./Components/Management/Track/UpdateTrack/TrackUpdate";
+import BuyFoodPage from "./Components/Home/AddToCart/BuyFood/BuyFoodPage";
 
 function App() {
   return (
@@ -23,7 +26,10 @@ function App() {
           <Route path="/addFood" element={<AddFood />} />
           <Route path="/updateFood/:addFoodId" element={<Updatepage />} />
           <Route path="/shopping" element={<AddToCartFood />} />
+          <Route path="/shoppingBuy/:addToCartId" element={<BuyFoodPage />} />
           <Route path="/track" element={<TrackPage />} />
+          <Route path="/reply/:buyFoodId" element={<ReplyPage />} />
+          <Route path="/replyUpdate/:responseId" element={<TrackUpdate />} />
         </Routes>
       </BrowserRouter>
     </>

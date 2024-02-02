@@ -54,6 +54,17 @@ const userSchema = new mongoose.Schema({
       fimg: String,
       fdec: String
     }
+  ],
+  response: [
+    {
+      fname: String,
+      fprice: Number,
+      fimg: String,
+      fdec: String,
+      dname: String,
+      dmobile: Number,
+      dduration: String
+    }
   ]
 });
 

@@ -307,34 +307,74 @@ router.post("/addToCart", authentication, async (req, res) => {
 
 router.post("/buyToFood", authentication, async (req, res) => {
   try {
+    console.log(req.body);
+    // const { addToCartId } = req.body;
+    // if (!addToCartId) {
+    //   res.status(400).json({
+    //     msg: "not find add to cart id"
+    //   });
+    // } else {
+    //   const user = req.getData;
+    //   if (!user) {
+    //     res.status(400).json({
+    //       msg: "user not found"
+    //     });
+    //   } else {
+    //     const entryField = user.addToCart.find(
+    //       (addToCart) => addToCart._id.toString() === addToCartId
+    //     );
+    //     if (!entryField) {
+    //       res.status(400).json({
+    //         msg: "This item is not in your shopping list."
+    //       });
+    //     } else {
+    //       // console.log(entryField);
+    //       user.buyFood.push(entryField);
+    //       const updatedUser = await user.save();
+
+    //       res.status(201).json({
+    //         msg: "Succesffully  buy!",
+    //         status: 207,
+    //         data: updatedUser
+    //       });
+    //     }
+    //   }
+    // }
+  } catch (error) {
+    res.status(400).json({
+      msg: "Failed to buy"
+    });
+  }
+});
+
+router.post("/responseUserFood", authentication, async (req, res) => {
+  try {
     // console.log(req.body);
-    const { addToCartId } = req.body;
-    if (!addToCartId) {
+    const { sendData, buyFoodId } = req.body;
+    if (!sendData || !buyFoodId) {
       res.status(400).json({
-        msg: "not find add to cart id"
+        msg: "Please provide all the necessary information!"
       });
     } else {
       const user = req.getData;
       if (!user) {
         res.status(400).json({
-          msg: "user not found"
+          msg: "You are not logged in!"
         });
       } else {
-        const entryField = user.addToCart.find(
-          (addToCart) => addToCart._id.toString() === addToCartId
+        const entryField = user.buyFood.find(
+          (buyFood) => buyFood._id.toString() === buyFoodId
         );
         if (!entryField) {
-          res.status(400).json({
-            msg: "This item is not in your shopping list."
-          });
+          res.status(404).json({ msg: "No such food found on your list" });
         } else {
-          // console.log(entryField);
-          user.buyFood.push(entryField);
-          const updatedUser = await user.save();
+          // console.log(sendData);
+          user.response.push(sendData);
 
+          const updatedUser = await user.save();
           res.status(201).json({
-            msg: "Succesffully  buy!",
-            status: 207,
+            msg: "Successfully  responded!",
+            status: 208,
             data: updatedUser
           });
         }
@@ -342,7 +382,92 @@ router.post("/buyToFood", authentication, async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({
-      msg: "Failed to buy"
+      msg: "Failed to response"
+    });
+  }
+});
+
+router.delete("/deleteResponsed", authentication, async (req, res) => {
+  try {
+    // console.log(req.body);
+    const { responseId } = req.body;
+    if (!responseId) {
+      res.status(400).json({
+        msg: "Please provide the id of the response you want to delete."
+      });
+    } else {
+      const user = req.getData;
+      if (!user) {
+        res.status(400).json({
+          msg: "Invalid User"
+        });
+      } else {
+        const entryField = user.response.find(
+          (response) => response._id.toString() === responseId
+        );
+        if (!entryField) {
+          res.status(400).json({
+            msg: `No such response with this ID exists in your profile.`
+          });
+        } else {
+          user.response = user.response.filter(
+            (response) => response._id.toString() !== responseId
+          );
+
+          const updatedUser = await user.save();
+          res.status(400).json({
+            msg: "delete successfully",
+            status: 209,
+            data: updatedUser
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(400).json({
+      msg: "Failed to login"
+    });
+  }
+});
+
+router.put("/responseUpdate", authentication, async (req, res) => {
+  try {
+    // console.log(req.body);
+    const { sendData, responseId } = req.body;
+    if (!sendData || !responseId) {
+      return res.status(400).json({ msg: "Please provide all fields." });
+    } else {
+      const user = req.getData;
+      if (!user) {
+        res.status(401).json({
+          msg: "Invalid user"
+        });
+      } else {
+        const entryField = user.response.findIndex(
+          (response) => response._id.toString() === responseId
+        );
+        if (entryField === -1) {
+          res.status(400).json({
+            msg: "This field does not already exist."
+          });
+        } else {
+          // console.log(entryField);
+          user.response[entryField].dname = sendData.dname;
+          user.response[entryField].dmobile = sendData.dmobile;
+          user.response[entryField].dduration = sendData.dduration;
+
+          const updatedUser = await user.save();
+          res.status(201).json({
+            msg: "response update",
+            status: 210,
+            data: updatedUser
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(400).json({
+      error: error
     });
   }
 });
