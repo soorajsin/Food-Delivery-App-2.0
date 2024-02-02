@@ -27,7 +27,7 @@ const Nav = () => {
       console.log(res);
       setUserData(res);
     } else {
-      window.location.replace("/login");
+      history("/");
     }
   };
 
