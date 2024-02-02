@@ -262,4 +262,29 @@ router.put("/updateFood", authentication, async (req, res) => {
   }
 });
 
+router.post("/addToCart", authentication, async (req, res) => {
+  try {
+    // console.log(req.body);
+    const {addFoodId}=req.body;
+    if(!addFoodId){
+      res.status(400).json({
+        msg:"Plz fills all fields"
+      })
+    }else{
+      const user=req.getData;
+      if(!user){
+        res.status(400).json({
+          msg:'Please login first'
+        })
+      }else{
+        
+      }
+    }
+  } catch (error) {
+    res.status(400).json({
+      msg: "Failed to addToCart"
+    });
+  }
+});
+
 module.exports = router;

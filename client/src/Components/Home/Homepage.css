@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.home {
+  margin: 100px auto;
+  width: 1200px;
+}
+
+.home .homeCon {
+  width: 1200px;
+}
+
+.home .homeCon .show {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.home .homeCon .show .showData {
+  margin-right: 50px;
+  width: 300px;
+  margin-bottom: 50px;
+  background-color: #eec6c6;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.home .homeCon .show .showData img {
+  width: 300px;
+  border-radius: 10px;
+  height: 200px;
+}
+
+.home .homeCon .show .showData h3 {
+  margin: 10px;
+}
+
+.home .homeCon .show .showData p {
+  margin: 10px;
+  font-size: 20px;
+  display: none;
+  word-wrap: break-word;
+}
+
+.home .homeCon .show .showData:hover p {
+  display: block;
+}
+
+.home .homeCon .show .showData .additional button {
+  padding: 8px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #1976d2;
+  color: #fff;
+  font-size: 16px;
+  display: none;
+  cursor: pointer;
+}
+
+.home .homeCon .show .showData:hover .additional button {
+  display: block;
+}
