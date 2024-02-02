@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { AppBar, Avatar, Toolbar } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Nav.css";
@@ -8,7 +8,7 @@ const Nav = () => {
   const history = useNavigate();
   const [userData, setUserData] = useState();
   const api = apiURL.url;
-  const navAuth = async () => {
+  const navAuth = useCallback(async () => {
     const token = await localStorage.getItem("token");
     // console.log(token);
 
@@ -29,11 +29,11 @@ const Nav = () => {
     } else {
       history("/");
     }
-  };
+  }, [api, history]);
 
   useEffect(() => {
     navAuth();
-  }, []);
+  }, [navAuth]);
 
   const signOut = async () => {
     const token = await localStorage.getItem("token");
@@ -102,7 +102,7 @@ const Nav = () => {
               </NavLink>
             </div>
             <div className="tab">
-              <NavLink className={"tabClick"}>
+              <div className={"tabClick"}>
                 <Avatar className="avatarIcon">
                   {userData ? userData.data.email.charAt(0).toUpperCase() : ""}
                 </Avatar>
@@ -145,7 +145,7 @@ const Nav = () => {
                     <NavLink className={"avatarClick"}>Log Out</NavLink>
                   </div>
                 </div>
-              </NavLink>
+              </div>
             </div>
           </div>
         </Toolbar>
