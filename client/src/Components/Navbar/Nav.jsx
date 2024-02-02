@@ -121,17 +121,25 @@ const Nav = () => {
                     <NavLink className={"avatarClick"}>Shopping</NavLink>
                   </div>
 
-{userData
-              ? userData.data.role === "staff" && (
-                <>
-                  <div className="avatartab">
-                    <NavLink to={"/management"} className={"avatarClick"}>Management</NavLink>
-                  </div>
-                  <div className="avatartab">
-                    <NavLink  to={"/track"} className={"avatarClick"}>Track</NavLink>
-                  </div>
-                  </>
-              )
+                  {userData
+                    ? userData.data.role === "staff" && (
+                        <>
+                          <div className="avatartab">
+                            <NavLink
+                              to={"/management"}
+                              className={"avatarClick"}
+                            >
+                              Management
+                            </NavLink>
+                          </div>
+                          <div className="avatartab">
+                            <NavLink to={"/track"} className={"avatarClick"}>
+                              Track
+                            </NavLink>
+                          </div>
+                        </>
+                      )
+                    : ""}
 
                   <div className="avatartab" onClick={signOut}>
                     <NavLink className={"avatarClick"}>Log Out</NavLink>
