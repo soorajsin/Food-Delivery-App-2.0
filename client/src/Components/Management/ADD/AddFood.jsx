@@ -27,32 +27,35 @@ const AddFood = () => {
   console.log(sendData);
 
   const submitToAdd = async (e) => {
-    const emptryField = sendData.some(
+    const emptyField = sendData.some(
       (form) => !form.fname || !form.fprice || !form.fimg || !form.fdec
     );
 
-    if (emptryField) {
+    if (emptyField) {
       alert("Please fill out all fields");
     } else {
-      console.log("add");
+      try {
+        const token = await localStorage.getItem("token");
+        const data = await fetch(`${api}/addFood`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+          },
+          body: JSON.stringify({ sendData })
+        });
 
-      const token = await localStorage.getItem("token");
-      const data = await fetch(`${api}/addFood`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token
-        },
-        body: JSON.stringify({ sendData })
-      });
+        const res = await data.json();
+        console.log(res);
 
-      const res = await data.json();
-      // console.log(res);
-
-      if (res.status === 201) {
-        history("/management");
-      } else {
-        alert("Error");
+        if (res.status === 201) {
+          history("/management");
+        } else {
+          alert("Error");
+        }
+      } catch (error) {
+        console.error("Error submitting data:", error);
+        // Handle error appropriately, e.g., show an error message to the user
       }
     }
   };
@@ -98,13 +101,14 @@ const AddFood = () => {
                 <label htmlFor="fimg">Food Image</label>
                 <br />
                 <input
-                  type="file"
+                  type="url"
                   value={subForm.fimg}
                   onChange={(e) => {
                     const updateUser = [...sendData];
                     updateUser[index].fimg = e.target.value;
                     setSendData(updateUser);
                   }}
+                  placeholder="Enter  image url"
                 />
               </div>
               <div className="form">
