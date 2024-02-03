@@ -27,9 +27,10 @@ const Nav = () => {
       console.log(res);
       setUserData(res);
     } else {
-      history("/");
+      // history("/");
+      console.log("user not login");
     }
-  }, [api, history]);
+  }, [api]);
 
   useEffect(() => {
     navAuth();

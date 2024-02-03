@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./ManagementPage.css";
 import { useNavigate } from "react-router-dom";
 import apiURL from "../config";
 
 const ManagementPage = () => {
   const [userData, setUserData] = useState();
+  console.log("checked", userData);
   const api = apiURL.url;
   const histoy = useNavigate();
 
@@ -12,7 +13,7 @@ const ManagementPage = () => {
     histoy("/addFood");
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const data = await fetch(`${api}/fetchedDataForManagement`, {
         method: "GET"
@@ -21,16 +22,16 @@ const ManagementPage = () => {
 
       if (res.status === 201) {
         // console.log("API Response:", res.data[0]);
-        setUserData(res.data[0]);
+        setUserData(res.data);
       }
     } catch (error) {
       console.log("Error fetching data:", error);
     }
-  };
+  }, [api]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const deleteFood = async (addFoodId, index) => {
     const token = await localStorage.getItem("token");
@@ -66,8 +67,10 @@ const ManagementPage = () => {
             <button onClick={addFoodPage}>ADD NEW PRODUCT</button>
           </div>
           <div className="show">
-            {userData
-              ? userData.addFood.map((addFood, index) => (
+            {userData && userData.length > 0
+              ?
+                  // Assuming addFood is an array in the userDataItem
+               userData.addFood.map((addFood, index) => (
                   <div key={index} className="showData">
                     <img src={addFood.fimg} alt="img" />
                     <h3>{addFood.fname}</h3>

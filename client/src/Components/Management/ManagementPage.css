@@ -27,6 +27,8 @@
   margin-top: 50px;
   display: flex;
   flex-wrap: wrap;
+  padding: 20px;
+  width: 1200px;
 }
 
 .management .managementCon .show .showData {
