@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import apiURL from "../../config";
 import { useNavigate } from "react-router-dom";
 import "./TrackPage.css";
@@ -7,25 +7,26 @@ const TrackPage = () => {
   const history = useNavigate();
   const api = apiURL.url;
   const [userData, setUserData] = useState();
-  const fetchData = async () => {
+  // console.log("track", userData);
+  const fetchData = useCallback(async () => {
     try {
-      const data = await fetch(`${api}/fetchedDataForManagement`, {
+      const data = await fetch(`${api}/fetchedDataForManagementTrack`, {
         method: "GET"
       });
       const res = await data.json();
 
       if (res.status === 201) {
-        // console.log("API Response:", res.data[0].email);
-        setUserData(res.data[0]);
+        // console.log("API Response:", res.data[0]);
+        setUserData(res);
       }
     } catch (error) {
       console.log("Error fetching data:", error);
     }
-  };
+  }, [api]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const responseTo = async (buyFoodId, index) => {
     history(`/reply/${buyFoodId}`);
@@ -61,7 +62,7 @@ const TrackPage = () => {
         <div className="homeCon">
           <div className="show">
             {userData
-              ? userData.buyFood.map((buyFood, index) => (
+              ? userData.data[0].map((buyFood, index) => (
                   <div key={index} className="showData">
                     <img src={buyFood.fimg} alt="img" />
                     <h3>{buyFood.fname}</h3>
@@ -84,7 +85,7 @@ const TrackPage = () => {
           </div>
           <div className="show">
             {userData
-              ? userData.response.map((response, index) => (
+              ? userData.data[0].map((response, index) => (
                   <div key={index} className="showData">
                     <img src={response.fimg} alt="img" />
                     <h3>{response.fname}</h3>

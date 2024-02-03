@@ -181,11 +181,32 @@ router.get("/fetchedDataForManagement", async (req, res) => {
   try {
     const fetched = await userdb.find({});
     // console.log(fetched);
+    const addFoodData = fetched.map((user) => user.addFood);
+    // console.log(addFoodData);
 
     res.status(201).json({
       msg: "Fetched data",
       status: 201,
-      data: fetched
+      data: addFoodData
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error
+    });
+  }
+});
+
+router.get("/fetchedDataForManagementTrack", async (req, res) => {
+  try {
+    const fetched = await userdb.find({});
+    // console.log(fetched);
+    const addFoodData = fetched.map((user) => user.buyFood && user.response);
+    // console.log(addFoodData);
+
+    res.status(201).json({
+      msg: "Fetched data",
+      status: 201,
+      data: addFoodData
     });
   } catch (error) {
     res.status(400).json({

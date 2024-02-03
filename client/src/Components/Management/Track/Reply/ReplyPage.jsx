@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import apiURL from "../../../config";
 
@@ -6,7 +6,7 @@ const ReplyPage = () => {
   const history = useNavigate();
   const api = apiURL.url;
   const { buyFoodId } = useParams();
-  // console.log(responseId);
+  // console.log(buyFoodId);
   const [sendData, setSendData] = useState({
     dname: "",
     dmobile: "",
@@ -18,9 +18,9 @@ const ReplyPage = () => {
   };
   console.log(sendData);
 
-  const fetchedData = async () => {
+  const fetchedData = useCallback(async () => {
     try {
-      const data = await fetch(`${api}/fetchedDataForManagement`, {
+      const data = await fetch(`${api}/fetchedDataForManagementTrack`, {
         method: "GET"
       });
 
@@ -28,10 +28,10 @@ const ReplyPage = () => {
       if (res.status === 201) {
         // console.log("update", res);
 
-        const findupdatefood = await res.data[0].buyFood.find(
+        const findupdatefood = await res.data[0].find(
           (buyFood) => buyFood._id.toString() === buyFoodId
         );
-        // console.log(findupdatefood);
+        // console.log("findupdatefood", findupdatefood);
         if (findupdatefood) {
           setSendData({
             fname: findupdatefood.fname,
@@ -51,10 +51,10 @@ const ReplyPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [api, buyFoodId]);
   useEffect(() => {
     fetchedData();
-  }, []);
+  }, [fetchedData]);
 
   const responseFoodDetails = async () => {
     const { dname, dmobile, dduration } = sendData;

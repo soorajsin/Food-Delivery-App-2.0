@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import "./Updatepage.css";
 import apiURL from "../../config";
@@ -20,7 +20,7 @@ const Updatepage = () => {
   };
   console.log(sendData);
 
-  const fetchedData = async () => {
+  const fetchedData = useCallback(async () => {
     try {
       const data = await fetch(`${api}/fetchedDataForManagement`, {
         method: "GET"
@@ -30,7 +30,7 @@ const Updatepage = () => {
       if (res.status === 201) {
         // console.log("update", res);
 
-        const findupdatefood = await res.data[0].addFood.find(
+        const findupdatefood = await res.data[0].find(
           (addFood) => addFood._id.toString() === addFoodId
         );
         // console.log(findupdatefood);
@@ -50,10 +50,10 @@ const Updatepage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [api, addFoodId]);
   useEffect(() => {
     fetchedData();
-  }, []);
+  }, [fetchedData]);
 
   const updateFoodDetails = async () => {
     const { fname, fprice, fimg, fdec } = sendData;

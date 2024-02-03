@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import apiURL from "../../config";
 import "./AddToCartFood.css";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ const AddToCartFood = () => {
   const api = apiURL.url;
   const [userData, setUserData] = useState();
   console.log("add to cart", userData);
-  const navAuth = async () => {
+  const navAuth = useCallback(async () => {
     const token = await localStorage.getItem("token");
     // console.log(token);
 
@@ -24,16 +24,16 @@ const AddToCartFood = () => {
     // console.log(res);
 
     if (res.status === 201) {
-      console.log(res);
+      console.log("Shopping",res);
       setUserData(res);
     } else {
-      window.location.replace("/login");
+      history("/login");
     }
-  };
+  }, [api, history]);
 
   useEffect(() => {
     navAuth();
-  }, []);
+  }, [navAuth]);
 
   const buyToFood = async (addToCartId, index) => {
     history(`/shoppingBuy/${addToCartId}`);

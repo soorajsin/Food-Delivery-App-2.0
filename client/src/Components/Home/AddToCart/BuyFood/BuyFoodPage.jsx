@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import apiURL from "../../../config";
 
@@ -18,7 +18,7 @@ const BuyFoodPage = () => {
   };
   console.log(sendData);
 
-  const fetchedData = async () => {
+  const fetchedData = useCallback(async () => {
     try {
       const data = await fetch(`${api}/fetchedDataForManagement`, {
         method: "GET"
@@ -26,9 +26,9 @@ const BuyFoodPage = () => {
 
       const res = await data.json();
       if (res.status === 201) {
-        console.log("update buy", res);
+        // console.log("update buy", res.data[0]);
 
-        const findupdatefood = await res.data[0].addToCart.find(
+        const findupdatefood = await res.data[0].find(
           (addToCart) => addToCart._id.toString() === addToCartId
         );
         // console.log("Fetched user", findupdatefood);
@@ -48,10 +48,10 @@ const BuyFoodPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [api, addToCartId]);
   useEffect(() => {
     fetchedData();
-  }, []);
+  }, [fetchedData]);
 
   const responseFoodDetails = async () => {
     const { uname, umobile, uaddress } = sendData;

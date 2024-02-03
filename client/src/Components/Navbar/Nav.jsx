@@ -119,7 +119,9 @@ const Nav = () => {
                     </NavLink>
                   </div>
                   <div className="avatartab">
-                    <NavLink className={"avatarClick"}>Shopping</NavLink>
+                    <NavLink to={"/shopping"} className={"avatarClick"}>
+                      Shopping
+                    </NavLink>
                   </div>
 
                   {userData

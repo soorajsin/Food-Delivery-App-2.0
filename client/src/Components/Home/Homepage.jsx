@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import apiURL from "../config";
 import "./Homepage.css";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ const Homepage = () => {
   const history = useNavigate();
   const api = apiURL.url;
   const [userData, setUserData] = useState();
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const data = await fetch(`${api}/fetchedDataForManagement`, {
         method: "GET"
@@ -16,16 +16,16 @@ const Homepage = () => {
 
       if (res.status === 201) {
         // console.log("API Response:", res.data[0].email);
-        setUserData(res.data[0]);
+        setUserData(res);
       }
     } catch (error) {
       console.log("Error fetching data:", error);
     }
-  };
+  }, [api]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const addToCart = async (addFoodId, index) => {
     const token = await localStorage.getItem("token");
@@ -42,7 +42,7 @@ const Homepage = () => {
     if (res.status === 206) {
       alert("Added to cart successfully");
       history("/shopping");
-    }else{
+    } else {
       alert("Please login first!");
     }
   };
@@ -53,7 +53,7 @@ const Homepage = () => {
         <div className="homeCon">
           <div className="show">
             {userData
-              ? userData.addFood.map((addFood, index) => (
+              ? userData.data[0].map((addFood, index) => (
                   <div key={index} className="showData">
                     <img src={addFood.fimg} alt="img" />
                     <h3>{addFood.fname}</h3>

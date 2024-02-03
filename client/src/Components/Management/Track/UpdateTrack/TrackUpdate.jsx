@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import apiURL from "../../../config";
 
@@ -18,9 +18,9 @@ const TrackUpdate = () => {
   };
   console.log(sendData);
 
-  const fetchedData = async () => {
+  const fetchedData = useCallback(async () => {
     try {
-      const data = await fetch(`${api}/fetchedDataForManagement`, {
+      const data = await fetch(`${api}/fetchedDataForManagementTrack`, {
         method: "GET"
       });
 
@@ -28,10 +28,10 @@ const TrackUpdate = () => {
       if (res.status === 201) {
         // console.log("update", res);
 
-        const findupdatefood = await res.data[0].response.find(
+        const findupdatefood = await res.data[0].find(
           (response) => response._id.toString() === responseId
         );
-        // console.log(findupdatefood);
+        // console.log("findupdatefood", findupdatefood);
         if (findupdatefood) {
           setSendData({
             dname: findupdatefood.dname,
@@ -47,10 +47,10 @@ const TrackUpdate = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [api, responseId]);
   useEffect(() => {
     fetchedData();
-  }, []);
+  }, [fetchedData]);
 
   const responseFoodDetails = async () => {
     const { dname, dmobile, dduration } = sendData;

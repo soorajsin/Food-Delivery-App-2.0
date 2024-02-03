@@ -5,7 +5,7 @@ import apiURL from "../config";
 
 const ManagementPage = () => {
   const [userData, setUserData] = useState();
-  console.log("checked", userData);
+  // console.log("checked", userData);
   const api = apiURL.url;
   const histoy = useNavigate();
 
@@ -21,8 +21,8 @@ const ManagementPage = () => {
       const res = await data.json();
 
       if (res.status === 201) {
-        // console.log("API Response:", res.data[0]);
-        setUserData(res.data);
+        console.log("API Response:", res);
+        setUserData(res);
       }
     } catch (error) {
       console.log("Error fetching data:", error);
@@ -32,6 +32,7 @@ const ManagementPage = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
 
   const deleteFood = async (addFoodId, index) => {
     const token = await localStorage.getItem("token");
@@ -67,10 +68,8 @@ const ManagementPage = () => {
             <button onClick={addFoodPage}>ADD NEW PRODUCT</button>
           </div>
           <div className="show">
-            {userData && userData.length > 0
-              ?
-                  // Assuming addFood is an array in the userDataItem
-               userData.addFood.map((addFood, index) => (
+            {userData
+              ? userData.data[0].map((addFood, index) => (
                   <div key={index} className="showData">
                     <img src={addFood.fimg} alt="img" />
                     <h3>{addFood.fname}</h3>
